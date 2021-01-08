@@ -55,8 +55,11 @@ button:hover {
 }
 
 #update-screen {
-  height: 80vh;
+  height: 75%;
+  margin: 1%;
   background-color: #acabab;
+  width: 60%;
+  align-self: center;
 }
 
 #player {
@@ -69,6 +72,9 @@ button:hover {
 }
 #player .info {
   text-align: center;
+}
+#player .info #player-name {
+  text-transform: capitalize;
 }
 #player #player-mp {
   background: blue;
@@ -83,16 +89,30 @@ button:hover {
   background: rgba(158, 158, 158, 0.452);
 }
 
-#actions {
-  background: gray;
+#enemies {
   position: absolute;
+  right: 0;
+  width: 18%;
+  margin: 1%;
+}
+#enemies .enemy-card {
+  background: black;
+  margin: 5%;
+  color: white;
+}
+
+#actions {
+  position: relative;
   display: flex;
+  margin-bottom: 10vh;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 #actions button {
+  height: inherit;
   min-width: 6em;
-  margin: 1%;
+  margin: 0.5%;
   font-size: larger;
   text-transform: uppercase;
   padding: 2rem 0 2rem 0;
