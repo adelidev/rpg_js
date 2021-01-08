@@ -2,6 +2,7 @@
   font-family: Nunito;
   font-size: 15px;
   margin: 0;
+  cursor: default;
 }
 
 body {
@@ -12,7 +13,7 @@ body {
 
 button {
   display: inline-block;
-  background: white;
+  background: #e4e4e4;
   transition-duration: 0.2s;
   padding: 0.4rem;
   border: none;
@@ -20,6 +21,12 @@ button {
 }
 button:hover {
   background-color: #a3a3a3;
+  color: white;
+  text-shadow: 1px 1px black;
+}
+
+input {
+  cursor: text;
 }
 
 .container {
@@ -33,6 +40,11 @@ button:hover {
   background: green;
   display: block;
   text-indent: 10px;
+}
+
+.name-title {
+  text-transform: capitalize;
+  font-weight: 700;
 }
 
 #start-screen {
@@ -71,24 +83,11 @@ button:hover {
 #player .info {
   text-align: center;
 }
-#player .info #player-name {
-  text-transform: capitalize;
-}
 #player #player-mp {
   background: blue;
 }
 #player #player-hp {
   background: green;
-}
-#player button {
-  width: 80%;
-  background: #e2e2e2;
-  color: black;
-}
-#player button:hover {
-  background: #7a7a7a;
-  color: white;
-  text-shadow: 1px 1px black;
 }
 
 #enemies {
@@ -117,11 +116,6 @@ button:hover {
   font-size: larger;
   text-transform: uppercase;
   padding: 2rem 0 2rem 0;
-}
-#actions button:hover {
-  color: white;
-  background-color: #adadad;
-  filter: drop-shadow(0px 0px 0px white);
 }
 
 /*# sourceMappingURL=theme.css.map */

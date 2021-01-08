@@ -2,6 +2,7 @@
     font-family: Nunito;
     font-size: 15px;
     margin: 0;
+    cursor: default;
 }
 
 body {
@@ -12,14 +13,20 @@ body {
 
 button {
     display: inline-block;
-    background: white;
+    background: rgb(228, 228, 228);
     transition-duration: 0.2s;
     padding: 0.4rem;
     border: none;
     cursor: pointer;
     &:hover {
         background-color: rgb(163, 163, 163);
+        color: white;
+        text-shadow: 1px 1px black;
     }
+}
+
+input {
+    cursor: text;
 }
 
 .container {
@@ -33,6 +40,11 @@ button {
     background: green;
     display: block;
     text-indent: 10px;
+}
+
+.name-title {
+    text-transform: capitalize;
+    font-weight: 700;
 }
 
 #start-screen {
@@ -69,25 +81,12 @@ button {
     display: flex;
     .info {
         text-align: center;
-        #player-name {
-            text-transform: capitalize;
-        }
     }
     #player-mp {
         background: blue;
     }
     #player-hp {
         background: green;
-    }
-    button {
-        width: 80%;
-        background: rgb(226, 226, 226);
-        color: black;
-        &:hover {
-            background: rgb(122, 122, 122);
-            color: white;
-            text-shadow: 1px 1px black;
-        }
     }
 }
 
@@ -116,10 +115,5 @@ button {
         font-size: larger;
         text-transform: uppercase;
         padding: 2rem 0 2rem 0;
-        &:hover {
-            color: white;
-            background-color: rgb(173, 173, 173);
-            filter: drop-shadow(0px 0px 0px white);
-        }
     }
 }
