@@ -1,3 +1,4 @@
+var player;
 class Player {
     constructor(name) {
         this.name = name;
@@ -8,9 +9,11 @@ class Player {
         this.HP = this.maxHP;
         this.maxMP = 40;
         this.MP = this.maxMP;
-        this.str = 12;
+        this.str = 10;
         this.def = 10;
-        this.int = 8;
+        this.int = 10;
+        this.comps = [];
+        this.sorts = [];
     }
     displaySelf() {
         $('#player').append(
@@ -20,14 +23,15 @@ class Player {
             '<button id="player-stats">Stats</button>' +
             '</div>' +
             '<div class="container">' +
-            '    <div class="bar" id="player-hp"><span>HP: <i>' + this.HP + '</i></span></div>' +
-            '    <div class="bar" id="player-mp"><span>MP: <i>' + this.MP + '</i></span></div>' +
+            '    <div class="bar" id="player-hp"><span>HP: </span><i>' + this.HP + '</i></div>' +
+            '    <div class="bar" id="player-mp"><span>MP: </span><i>' + this.MP + '</i></div>' +
             '</div>'
         );
     }
 }
+
 class Enemy {
-    constructor(name, lvl, maxHP, maxMP, str, def, int) {
+    constructor(name, lvl, maxHP, maxMP, str, def, int, sorts = [], comps = []) {
         this.name = name;
         this.lvl = lvl;
         this.HP = maxHP;
@@ -35,6 +39,8 @@ class Enemy {
         this.str = str;
         this.def = def;
         this.int = int;
+        this.sorts;
+        this.comps;
     }
     displaySelf(eNb) {
         $('#enemies').append('<div class="enemy-card">' +
@@ -43,6 +49,7 @@ class Enemy {
             '<br><span> niv. <i id="enemy-lvl">' + this.lvl + '</i></span></div>');
     }
 }
+
 const enemies = [{
     name: "Démon",
     lvl: 3,
@@ -51,7 +58,7 @@ const enemies = [{
     int: 13,
     maxHP: 80,
     maxMP: 100,
-    sorts: { 0: "Brulure", 1: "Siphon" }
+    sorts: ["Brulure", "Siphon"]
 }, {
     name: "Chevalier possédé",
     lvl: 5,
@@ -60,14 +67,16 @@ const enemies = [{
     int: 10,
     maxHP: 110,
     maxMP: 50,
+    sorts: ["Brulure", "Siphon"]
 }, {
-    name: "Lapin enragé",
+    name: "Rat gris",
     lvl: 1,
     str: 4,
     def: 3,
     int: 0,
     maxHP: 50,
     maxMP: 0,
+    sorts: ["Brulure", "Siphon"]
 }, {
     name: "Grand serpent",
     lvl: 8,
@@ -76,6 +85,7 @@ const enemies = [{
     int: 15,
     maxHP: 150,
     maxMP: 50,
+    sorts: ["Brulure", "Siphon"]
 }, {
     name: "Lézard venimeux",
     lvl: 2,
@@ -84,6 +94,7 @@ const enemies = [{
     int: 0,
     maxHP: 40,
     maxMP: 10,
+    sorts: ["Brulure", "Siphon"]
 }, {
     name: "Homme désespéré",
     lvl: 1,
@@ -92,21 +103,25 @@ const enemies = [{
     int: 6,
     maxHP: 60,
     maxMP: 0,
-}, ]
+    sorts: ["Brulure", "Siphon"]
+}]
 
-function generateEnemy() {
+function generateEnemies() {
     var encounters = [];
-    for (let i = 0; i < Math.round(Math.random() * Math.floor(3)) + 1; i++) {
+    var nbEnemies = Math.round(Math.random() * Math.floor(3)) + 1;
+    for (let i = 0; i < nbEnemies; i++) {
         var randomizer = Math.round(Math.random() * Math.floor(enemies.length - 1));
-        encounters[i] = new Enemy(enemies[randomizer].name, enemies[randomizer].lvl, enemies[randomizer].maxHP, enemies[randomizer].maxMP, enemies[randomizer].str, enemies[randomizer].def, enemies[randomizer].int);
-        encounters[i].displaySelf(i);
+        if (enemies[randomizer].lvl < (player.lvl + 3)) {
+            encounters[i] = new Enemy(enemies[randomizer].name, enemies[randomizer].lvl, enemies[randomizer].maxHP, enemies[randomizer].maxMP, enemies[randomizer].str, enemies[randomizer].def, enemies[randomizer].int);
+            encounters[i].displaySelf(i);
+        }
     }
 }
 
 function gameStart() {
-    var player = new Player($("#start-screen div input").val());
+    player = new Player($("#start-screen div input").val());
     player.displaySelf();
-    generateEnemy();
+    generateEnemies();
 }
 
 //Welcome Screen
