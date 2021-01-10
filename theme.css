@@ -61,20 +61,23 @@ input {
 }
 
 #fight-screen {
+  display: flex;
   height: 100vh;
   display: none;
   flex-direction: column;
 }
 
 #update-screen {
-  margin: 1%;
   background-color: #acabab;
-  align-self: center;
+  position: relative;
+  top: 0;
+  bottom: 14em;
+  height: 85vh;
 }
 
 #player {
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  align-self: flex-end;
   background: black;
   height: 5.5em;
   width: 100%;
@@ -105,12 +108,19 @@ input {
   background: black;
   margin: 5%;
   color: white;
+  cursor: pointer;
+}
+#enemies .enemy-card * {
+  cursor: pointer;
+}
+#enemies .enemy-card:hover {
+  background: #4b4b4b;
+  border: 2px solid white;
 }
 
 #actions {
-  position: absolute;
+  position: relative;
   background: rgba(255, 255, 255, 0.411);
-  bottom: 5.5em;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -122,8 +132,8 @@ input {
 }
 #actions button {
   height: inherit;
-  min-width: 8em;
-  max-width: 8em;
+  min-width: 8.5em;
+  max-width: 8.5em;
   margin: 0.5%;
   font-size: larger;
   text-transform: uppercase;

@@ -32,22 +32,37 @@ class Player {
             '</div>'
         );
     }
+    Action(action) {
+        switch (action) {
+            case atq:
+                $("#update-screen").append("<p>Vous attaquez</p>");
+                break;
+            case def:
+                break;
+            case comp:
+                break;
+            case mag:
+                break;
+            case obj:
+                break;
+        }
+    }
 }
 
 class Enemy {
-    constructor(name, lvl, maxHP, maxMP, str, def, int, sorts, comps, weak, resist) {
-        this.name = name;
-        this.lvl = lvl;
-        this.HP = maxHP;
-        this.MP = maxMP;
+    constructor(enemy) {
+        this.name = enemy.name;
+        this.lvl = enemy.lvl;
+        this.HP = enemy.maxHP;
+        this.MP = enemy.maxMP;
         this.CP = 0;
-        this.str = str;
-        this.def = def;
-        this.int = int;
-        this.sorts;
-        this.comps;
-        this.weak;
-        this.resist;
+        this.str = enemy.str;
+        this.def = enemy.def;
+        this.int = enemy.int;
+        this.sorts = enemy.sorts;
+        this.comps = enemy.comps;
+        this.weak = enemy.weak;
+        this.resist = enemy.resist;
     }
     displaySelf(eNb) {
         $('#enemies').append('<div class="enemy-card">' +
@@ -78,20 +93,26 @@ const sorts = [{
 const comps = [{
     name: "Morsure",
     desc: "Inflige des dégats physique, chances d'empoisonner l'adversaire",
+    cost: 15,
 }, {
     name: "Balayage",
     desc: "Inflige des dégats à tous les enemies",
+    cost: 10,
+}, {
+    name: "Rage",
+    desc: "Augmente considérablement votre Force pendant 5 tours",
+    cost: 50,
 }]
 
 const obj = [{
     name: "Fiole de vitalité",
-    desc: "Rend 20 HP"
+    desc: "Rend 20 HP",
 }, {
     name: "Fiole de puissance",
-    desc: "Augmente votre Force pendant 3 tours"
+    desc: "Augmente votre Force pendant 3 tours",
 }, {
     name: "Fiole de sang divin",
-    desc: "Rend 15 MP"
+    desc: "Rend 15 MP",
 }]
 
 const dmgTypes = [
@@ -184,36 +205,53 @@ const enemies = [{
     weak: [0, 3, 4, 5],
     resist: [],
 }]
-var player;
 
-function generateEnemies() {
-    var encounters = [];
-    var nbEnemies = Math.round(Math.random() * Math.floor(3)) + 1;
-    for (let i = 0; i < nbEnemies; i++) {
-        var randomizer = Math.round(Math.random() * Math.floor(enemies.length - 1));
-        if (enemies[randomizer].lvl < (player.lvl + 3)) {
-            encounters[i] = new Enemy(enemies[randomizer].name, enemies[randomizer].lvl,
-                enemies[randomizer].maxHP, enemies[randomizer].maxMP, enemies[randomizer].str,
-                enemies[randomizer].def, enemies[randomizer].int, enemies[randomizer].sorts,
-                enemies[randomizer].comps, enemies[randomizer].weak, enemies[randomizer].resist);
-            encounters[i].displaySelf(i);
-        } else nbEnemies += 1;
+
+
+class Fight {
+    constructor() {
+        this.turn = 0;
+
+        this.generateEnemies()
+        player.displaySelf();
+        this.handleEvents();
     }
+    generateEnemies() {
+        var encounters = [];
+        var nbEnemies = Math.round(Math.random() * Math.floor(3)) + 1;
+        for (let i = 0; i < nbEnemies; i++) {
+            var randomizer = Math.round(Math.random() * Math.floor(enemies.length - 1));
+            if (enemies[randomizer].lvl < (player.lvl + 3) && enemies[randomizer].lvl > (player.lvl - 3)) {
+                encounters[i] = new Enemy(enemies[randomizer]);
+                encounters[i].displaySelf(i);
+                this.nbEnemies = nbEnemies - 1;
+            } else nbEnemies += 1;
+        }
+    }
+    handleEvents() {
+
+    }
+
 }
 
 function gameStart() {
     player = new Player($("#start-screen div input").val());
-    player.displaySelf();
-    generateEnemies();
+    fight = new Fight;
 }
 
 //Welcome Screen
 $("#start-screen div button").click(event => {
-    if ($("#start-screen div input").val() != "") {
+    const validName = /[^a-zA-Z0-9 ]/;
+    var name = $("#start-screen div input").val();
+    if (name != "" && name.length > 2) {
         $("#start-screen").css("top", "-100%");
         $("#fight-screen").css("display", "flex");
         gameStart();
-    } else if (document.getElementById('start-screen').lastElementChild.childElementCount < 3) {
+    } else if (name.length <= 2 && name.length > 0) {
+        $("#start-screen div p").remove();
+        $("#start-screen div").append("<p style='color:red; position: absolute' class='container'>Votre nom doit contenir au moins 3 caractères</p>");
+    } else if (name.val() == "") {
+        $("#start-screen div p").remove();
         $("#start-screen div").append("<p style='color:red; position: absolute' class='container'>Veuillez renseigner un nom</p>");
     }
 });
