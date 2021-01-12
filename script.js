@@ -32,18 +32,22 @@ class Player {
             '</div>'
         );
     }
-    Action(action) {
-        switch (action) {
-            case atq:
-                $("#update-screen").append("<p>Vous attaquez</p>");
+    action(act) {
+        switch (act) {
+            case "atq":
+                $("#updates").append("<p>Vous attaquez</p>");
                 break;
-            case def:
+            case "def":
+                $("#updates").append("<p>Vous vous défendez</p>");
                 break;
-            case comp:
+            case "comps":
+                $("#updates").append("<p>Vous utilisez une compétence</p>");
                 break;
-            case mag:
+            case "mag":
+                $("#updates").append("<p>Vous jetez un sort</p>");
                 break;
-            case obj:
+            case "obj":
+                $("#updates").append("<p>Vous utilisez un objet</p>");
                 break;
         }
     }
@@ -70,6 +74,7 @@ class Enemy {
             '<span id="enemy-name' + eNb + '" class="name-title">' + this.name + '</span>' +
             '<br><span> niv. <i id="enemy-lvl">' + this.lvl + '</i></span></div>');
     }
+    action(act) {}
 }
 
 const sorts = [{
@@ -130,6 +135,7 @@ const altStates = [
     "frozen",
     "asleep",
     "afraid",
+    "weakened",
 ]
 
 const enemies = [{
@@ -206,12 +212,10 @@ const enemies = [{
     resist: [],
 }]
 
-
-
 class Fight {
     constructor() {
         this.turn = 0;
-
+        this.nbEnemies;
         this.generateEnemies()
         player.displaySelf();
         this.handleEvents();
@@ -224,15 +228,21 @@ class Fight {
             if (enemies[randomizer].lvl < (player.lvl + 3) && enemies[randomizer].lvl > (player.lvl - 3)) {
                 encounters[i] = new Enemy(enemies[randomizer]);
                 encounters[i].displaySelf(i);
-                this.nbEnemies = nbEnemies - 1;
+                this.nbEnemies = nbEnemies;
             } else nbEnemies += 1;
         }
     }
     handleEvents() {
-
+        //Update text on screen
+        $("#updates").on('DOMNodeInserted', function() {
+            if ($("#updates p").length > 14) {
+                $("#updates p:first-child").remove();
+            } else if ($("#updates p:first-child").text() == "Choisissez une action")
+                $("#updates p:first-child").remove();
+        })
     }
-
 }
+
 
 function gameStart() {
     player = new Player($("#start-screen div input").val());
@@ -241,17 +251,20 @@ function gameStart() {
 
 //Welcome Screen
 $("#start-screen div button").click(event => {
-    const validName = /[^a-zA-Z0-9 ]/;
+    const validName = /[^a-zA-Z ]/;
     var name = $("#start-screen div input").val();
-    if (name != "" && name.length > 2) {
+    if (name != "" && name.length > 2 && !validName.test(name)) {
         $("#start-screen").css("top", "-100%");
         $("#fight-screen").css("display", "flex");
         gameStart();
+    } else if (name == "") {
+        $("#start-screen div p").remove();
+        $("#start-screen div").append("<p>Veuillez renseigner un nom</p>");
     } else if (name.length <= 2 && name.length > 0) {
         $("#start-screen div p").remove();
-        $("#start-screen div").append("<p style='color:red; position: absolute' class='container'>Votre nom doit contenir au moins 3 caractères</p>");
-    } else if (name.val() == "") {
+        $("#start-screen div").append("<p>Votre nom doit contenir au moins 3 caractères</p>");
+    } else if (validName.test(name)) {
         $("#start-screen div p").remove();
-        $("#start-screen div").append("<p style='color:red; position: absolute' class='container'>Veuillez renseigner un nom</p>");
+        $("#start-screen div").append("<p>Les caractères spéciaux et les nombres ne sont pas autorisés</p>");
     }
 });

@@ -58,6 +58,11 @@ input {
     background: rgb(216, 215, 215);
     transition-duration: 2s;
     z-index: 10;
+    div p {
+        @extend .container;
+        color: red;
+        position: absolute
+    }
 }
 
 #fight-screen {
@@ -68,11 +73,24 @@ input {
 }
 
 #update-screen {
+    display: flex;
+    flex-direction: column-reverse;
     background-color: rgb(172, 171, 171);
     position: relative;
-    top: 0;
-    bottom: 14em;
     height: 85vh;
+    p:last-child {
+        font-size: 22px;
+        text-indent: 10px;
+        bottom: 20em;
+        background: white;
+        text-align: center;
+        align-self: end;
+        padding: 1%;
+    }
+    p {
+        background: rgba(255, 255, 255, 0.479);
+        text-indent: 1%;
+    }
 }
 
 #player {
@@ -133,12 +151,14 @@ input {
         height: inherit;
         min-width: 8.5em;
         max-width: 8.5em;
+        max-height: 4em;
+        align-self: center;
         margin: 0.5%;
         font-size: larger;
         text-transform: uppercase;
         padding: 1rem 0 1rem 0;
         &:hover {
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
     }
 }

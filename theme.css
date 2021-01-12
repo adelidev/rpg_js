@@ -29,7 +29,7 @@ input {
   cursor: text;
 }
 
-.container {
+.container, #start-screen div p {
   width: 100%;
 }
 
@@ -59,6 +59,10 @@ input {
   transition-duration: 2s;
   z-index: 10;
 }
+#start-screen div p {
+  color: red;
+  position: absolute;
+}
 
 #fight-screen {
   display: flex;
@@ -68,11 +72,24 @@ input {
 }
 
 #update-screen {
+  display: flex;
+  flex-direction: column-reverse;
   background-color: #acabab;
   position: relative;
-  top: 0;
-  bottom: 14em;
   height: 85vh;
+}
+#update-screen p:last-child {
+  font-size: 22px;
+  text-indent: 10px;
+  bottom: 20em;
+  background: white;
+  text-align: center;
+  align-self: end;
+  padding: 1%;
+}
+#update-screen p {
+  background: rgba(255, 255, 255, 0.479);
+  text-indent: 1%;
 }
 
 #player {
@@ -134,13 +151,15 @@ input {
   height: inherit;
   min-width: 8.5em;
   max-width: 8.5em;
+  max-height: 4em;
+  align-self: center;
   margin: 0.5%;
   font-size: larger;
   text-transform: uppercase;
   padding: 1rem 0 1rem 0;
 }
 #actions button:hover {
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 /*# sourceMappingURL=theme.css.map */

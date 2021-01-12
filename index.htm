@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RPGjs</title>
     <link rel="stylesheet" href="theme.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
@@ -20,17 +20,20 @@
     </div>
     <div id="fight-screen">
         <div id="update-screen" class="container">
+            <div id="updates">
+                <p>Choisissez une action</p>
+            </div>
         </div>
         <div id="actions" class="container">
             <div>
-                <button id="btn-atq">attaque</button>
-                <button id="btn-def">défense</button>
+                <button id="btn-atq" onclick='player.action(act = "atq")'>attaque</button>
+                <button id="btn-def" onclick='player.action(act = "def")'>défense</button>
             </div>
             <div>
-                <button id="btn-comps">compétences</button>
-                <button id="btn-mag">magie</button>
+                <button id="btn-comps" onclick='player.action(act = "comps")'>compétences</button>
+                <button id="btn-mag" onclick='player.action(act = "mag")'>magie</button>
             </div>
-            <button id="btn-obj" style="border-radius: 50%; height: 75%; min-width: 7em; align-self: center;">objets</button>
+            <button id="btn-obj" onclick='player.action(act = "obj")'>objets</button>
         </div>
         <div id="enemies">
         </div>
